@@ -26,7 +26,6 @@
    <version>0.0.1-SNAPSHOT</version>
    <packaging>jar</packaging>
 
-   <name>Test_app</name>
 
    <properties>
       <tuscany.version>2.0</tuscany.version>
@@ -70,4 +69,5 @@
   </plugins>
 </build>
 
+  <name>cluster</name>
 </project>
