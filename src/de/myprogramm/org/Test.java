@@ -17,7 +17,7 @@ import org.jboss.dmr.ModelNode;
 
 public class Test {
 
-static ModelControllerClient createClient(final InetAddress host, final int port,
+static private ModelControllerClient createClient(final InetAddress host, final int port,
             final String username, final char[] password, final String securityRealmName) {
 
 final CallbackHandler callbackHandler = new CallbackHandler() {
