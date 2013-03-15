@@ -54,11 +54,21 @@ return ModelControllerClient.Factory.create(host, port, callbackHandler);
 			InetAddress server = InetAddress.getByName("localhost");
 			//unauthenticatedClient = 
 			//		ModelControllerClient.Factory.create(server,9999);
-			unauthenticatedClient = Test.createClient(server, 9990, "sa", "sa".toCharArray(),"ManagementRealm");
+			unauthenticatedClient = Test.createClient(server, 9999, "sa", "sa".toCharArray(),"ManagementRealm");
 			 ModelNode testConnection = new ModelNode();
 			    testConnection.get("operation").set("read-resource");  // Execute an
 			    unauthenticatedClient.execute(testConnection);
 			    client = unauthenticatedClient;
+			   // ModelNode op = new ModelNode();
+			    testConnection.get("operation").set("read-resource-description");
+			    ModelNode address = testConnection.get("address");
+			    address.add("subsystem", "web");
+			    address.add("connector", "http"); 
+			    testConnection.get("recursive").set(true);
+			    testConnection.get("operations").set(true);
+			    ModelNode returnVal = client.execute(testConnection);
+			    System.out.println(returnVal.get("result").toString());
+			    client.close();
 		}
 		catch(ConnectException ex)
 		{
