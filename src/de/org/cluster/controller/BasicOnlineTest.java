@@ -14,6 +14,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.sasl.RealmCallback;
 
 import org.jboss.as.controller.client.ModelControllerClient;
+import org.jboss.dmr.ModelNode;
 
 import de.org.cluster.controller.interfaces.BasicOnlineTestInterface;
 
@@ -48,7 +49,7 @@ public class BasicOnlineTest implements BasicOnlineTestInterface{
  * @param securityRealmName
  * @return
  */
-	static private ModelControllerClient createClient(final InetAddress host, final int port,
+static private ModelControllerClient createClient(final InetAddress host, final int port,
             final String username, final char[] password, final String securityRealmName) {
 
 final CallbackHandler callbackHandler = new CallbackHandler() {
@@ -73,20 +74,96 @@ final CallbackHandler callbackHandler = new CallbackHandler() {
 
 return ModelControllerClient.Factory.create(host, port, callbackHandler);
 }
+/**
+ * Minimum for a Port-Number
+ */
+public static int MIN_PORT=0;
+/**
+ * Maximum for a Port-Number
+ */
+public static int MAX_PORT=9999;
 
-public boolean isAvailable(InetAddress Server, int port, String username,
-		char[] password, String SecurityRealm) throws IOError,
-		ConnectException, UnknownHostException {
-	// TODO Auto-generated method stub
+public boolean isAvailable(InetAddress server, int port, String username,
+		char[] password, String securityRealm) throws IOError,
+		IOException {
+	testServerAddress(server);
+	testPort(port);
+	testUsername(username);
+	testPassword(password.toString());
+	testSecurityRealm(securityRealm);
+	ModelControllerClient client = null;
+	client = createClient(server,port,username,password,securityRealm);
+	ModelNode testConnection = new ModelNode();
+	testConnection.get("operation").set("read-resource"); 
+	client.execute(testConnection);
+	client.close();
+	return true;
+}
+
+public boolean isAvailable(InetAddress server, int port,
+		String securityRealm) throws IOError, ConnectException,
+		UnknownHostException,IOException {
+	testServerAddress(server);
+	testPort(port);
+	testSecurityRealm(securityRealm);
+	ModelControllerClient unauthenticatedClient = null;
+	ModelNode testConnection = new ModelNode();
+	unauthenticatedClient= ModelControllerClient.Factory.create(server,port);
+	testConnection.get("operation").set("read-resource");  // Execute an
+	unauthenticatedClient.execute(testConnection);
+	unauthenticatedClient.close();
+	return true;
+}
+
+private void testServerAddress(InetAddress server) throws IllegalArgumentException
+{
+	if (server==null) throw new IllegalArgumentException("Server can't be null");
+}
+private void testPort(int port) throws IllegalArgumentException
+{
+	if (port<MIN_PORT) throw new IllegalArgumentException("Serverport need to be positiv and zero at least");
+	if (port>MAX_PORT) throw new IllegalArgumentException("Serverport can be 9999 at least.");
+}
+private void testSecurityRealm(String securityRealm) throws IllegalArgumentException
+{
+	if (securityRealm==null) throw new IllegalArgumentException("SecurityRealm can't be null");
+}
+
+private void testUsername(String username) throws IllegalArgumentException
+{
+	if (username==null) throw new IllegalArgumentException("Username can't be null");
+}
+
+private void testPassword(String password) throws IllegalArgumentException
+{
+	if (password==null) throw new IllegalArgumentException("Password can't be null");
+}
+
+public boolean isServerAdressValid(InetAddress server)
+{
+	if (server==null) return false;
+	return true;
+}
+
+public boolean isPortNumberValid(int port) {
+	if (port<MIN_PORT) return false;
+	if (port>MAX_PORT) return false;
+	return true;
+}
+
+public boolean isUsernameValid(String username) {
+	if (username!=null) return true;
 	return false;
 }
 
-public boolean isAvailable(InetAddress Server, int port, String username,
-		String SecurityRealm) throws IOError, ConnectException,
-		UnknownHostException {
-	// TODO Auto-generated method stub
+public boolean isPasswordValid(String password) {
+	if (password!=null) return true;
 	return false;
 }
+
+
+
+
 
 	
 	
