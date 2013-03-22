@@ -1,4 +1,4 @@
-package de.myprogramm.org;
+package main.java.org.cluster.control;
 
 import java.io.IOException;
 import java.net.ConnectException;

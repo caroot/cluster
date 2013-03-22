@@ -1,4 +1,4 @@
-package de.org.cluster.controller.interfaces;
+package main.java.org.cluster.control;
 
 import java.io.IOError;
 import java.io.IOException;

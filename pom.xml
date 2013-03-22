@@ -21,7 +21,7 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
-   <groupId>Simple_app</groupId>
+   <groupId>org.cluster.control</groupId>
    <artifactId>Test_app</artifactId>
    <version>0.0.1-SNAPSHOT</version>
    <packaging>jar</packaging>
@@ -61,6 +61,9 @@
             <mainClass>fully.qualified.MainClass</mainClass>
           </manifest>
         </archive>
+        <descriptors>
+        	<descriptor>src/assembly/dist.xml</descriptor>
+        </descriptors>
         <descriptorRefs>
           <descriptorRef>jar-with-dependencies</descriptorRef>
         </descriptorRefs>

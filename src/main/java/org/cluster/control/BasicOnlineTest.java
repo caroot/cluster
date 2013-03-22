@@ -1,4 +1,4 @@
-package de.org.cluster.controller;
+package main.java.org.cluster.control;
 
 import java.io.IOError;
 import java.io.IOException;
@@ -13,10 +13,10 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.sasl.RealmCallback;
 
+
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 
-import de.org.cluster.controller.interfaces.BasicOnlineTestInterface;
 
 /**
  * This class provide a JBoss Server Connection<\br>
